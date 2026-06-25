@@ -5,6 +5,7 @@ import { AddressForm } from "./AddressForm";
 import Loading from "../components/cards/Loading";
 import AddressCard from "../components/cards/AddressCard";
 import { MapPinIcon, PlusIcon, HomeIcon } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 const Addresses = () => {
   const { addresses, addAddress, removeAddress, updateAddress } = useShop();
@@ -33,11 +34,10 @@ const Addresses = () => {
     }));
   };
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // If editing, update; else add new
     if (editingId) {
       updateAddress(formData);
     } else {
@@ -78,22 +78,53 @@ const Addresses = () => {
   };
 
   return (
-    <div className="min-h-screen bg-app-cream pb-20">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-app-cream pb-20"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+        >
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <HomeIcon className="w-6 h-6 text-app-orange" />
-              <h2 className="text-2xl md:text-3xl font-serif text-app-text">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.4, type: "spring" }}
+              >
+                <HomeIcon className="w-6 h-6 text-app-orange" />
+              </motion.div>
+              <motion.h2
+                initial={{ x: -10, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+                className="text-2xl md:text-3xl font-serif text-app-text"
+              >
                 My Addresses
-              </h2>
+              </motion.h2>
             </div>
-            <p className="text-sm text-app-text-light">
+            <motion.p
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
+              className="text-sm text-app-text-light"
+            >
               Manage your delivery addresses for faster checkout
-            </p>
+            </motion.p>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ x: 10, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
             onClick={() => {
               resetForm();
               setShowForm(true);
@@ -102,36 +133,63 @@ const Addresses = () => {
           >
             <PlusIcon className="w-4 h-4" />
             Add Address
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Address Form Modal */}
-        {showForm && (
-          <AddressForm
-            resetForm={resetForm}
-            formData={formData}
-            handleChanges={handleChanges}
-            handleSubmit={handleSubmit}
-            editingId={editingId}
-          />
-        )}
+        <AnimatePresence>
+          {showForm && (
+            <AddressForm
+              resetForm={resetForm}
+              formData={formData}
+              handleChanges={handleChanges}
+              handleSubmit={handleSubmit}
+              editingId={editingId}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Content */}
         {loading ? (
           <Loading />
         ) : addresses.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-2xl border border-app-border/50 shadow-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-center py-20 bg-white rounded-2xl border border-app-border/50 shadow-sm"
+          >
             <div className="max-w-sm mx-auto">
-              <div className="w-24 h-24 bg-app-cream rounded-full flex items-center justify-center mx-auto mb-4">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.4, type: "spring" }}
+                className="w-24 h-24 bg-app-cream rounded-full flex items-center justify-center mx-auto mb-4"
+              >
                 <MapPinIcon className="w-10 h-10 text-app-text-light" />
-              </div>
-              <h2 className="text-xl font-bold text-app-text mb-2">
+              </motion.div>
+              <motion.h2
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+                className="text-xl font-bold text-app-text mb-2"
+              >
                 No Addresses Saved
-              </h2>
-              <p className="text-sm text-app-text-light mb-6">
+              </motion.h2>
+              <motion.p
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.3 }}
+                className="text-sm text-app-text-light mb-6"
+              >
                 Add your first address for faster checkout
-              </p>
-              <button
+              </motion.p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.3 }}
                 onClick={() => {
                   resetForm();
                   setShowForm(true);
@@ -140,23 +198,49 @@ const Addresses = () => {
               >
                 <PlusIcon className="w-4 h-4" />
                 Add Your First Address
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.05,
+                  delayChildren: 0.1,
+                },
+              },
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
+          >
             {addresses.map((addr) => (
-              <AddressCard
+              <motion.div
                 key={addr._id}
-                removeAddress={removeAddress}
-                addr={addr}
-                handleAddressEdit={handleAddressEdit}
-              />
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.3 },
+                  },
+                }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              >
+                <AddressCard
+                  removeAddress={removeAddress}
+                  addr={addr}
+                  handleAddressEdit={handleAddressEdit}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
