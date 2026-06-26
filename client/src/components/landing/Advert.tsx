@@ -18,7 +18,7 @@ const Advert = () => {
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden bg-linear-to-r from-app-green to-app-green-light shadow-xl rounded-2xl"
+          className="relative overflow-hidden bg-linear-to-r from-app-green to-app-green-light shadow-xl "
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 p-6 md:p-10 lg:p-14">
             {/* Content */}

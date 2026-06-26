@@ -14,12 +14,11 @@ import {
   LogInIcon,
   UserPlusIcon,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useShop } from "../context/ShopContextProvider";
 
 const Navbar = () => {
-  const [search, setSearch] = useState("");
   const [openUser, setOpenUser] = useState(false);
   const [onMobile, setOnMobile] = useState(false);
 
@@ -32,7 +31,8 @@ const Navbar = () => {
   };
 
   const { cartCount, setIsCartOpen, isLogin, setCurrentState, setIsLogin, wishlist } = useShop();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('')
 
   const navLinks = [
     { id: 1, name: "Shop", path: "/products" },
@@ -62,6 +62,15 @@ const Navbar = () => {
     { id: 4, name: "Addresses", path: "/my-addresses", icon: MapPinIcon },
     { id: 5, name: "Settings", path: "/settings", icon: SettingsIcon },
   ];
+
+
+  const handleSearch = (e:React.SubmitEvent) =>{
+     e.preventDefault();
+     if(searchQuery.trim()){
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("")
+     }
+  }
 
   return (
     <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-app-border/40">
@@ -132,14 +141,14 @@ const Navbar = () => {
           </nav>
 
           {/* Search Bar */}
-          <form className="hidden md:flex items-center flex-1 max-w-md mx-4 lg:mx-6">
+          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 max-w-md mx-4 lg:mx-6">
             <div className="relative w-full">
               <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-app-text-light/60" />
               <input
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 type="text"
                 placeholder="Search for products..."
-                value={search}
+                value={searchQuery}
                 className="w-full pl-10 pr-4 py-2.5 bg-app-cream/70 border border-app-border/50 rounded-full text-sm focus:border-app-orange/50 focus:ring-2 focus:ring-orange-100/60 transition-all placeholder:text-app-text-light/50"
               />
             </div>
@@ -294,10 +303,10 @@ const Navbar = () => {
                 <div className="relative">
                   <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-app-text-light/60" />
                   <input
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     type="text"
                     placeholder="Search for products..."
-                    value={search}
+                    value={searchQuery}
                     className="w-full pl-10 pr-4 py-2.5 bg-app-cream/70 border border-app-border/50 rounded-xl text-sm focus:border-app-orange/50 focus:ring-2 focus:ring-orange-100/60 transition-all placeholder:text-app-text-light/50"
                   />
                 </div>
