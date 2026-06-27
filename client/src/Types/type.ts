@@ -1,5 +1,3 @@
-
-
 export interface Product {
   _id: string;
   name: string;
@@ -18,9 +16,9 @@ export interface Product {
 }
 
 export interface CartItem {
-    product:Product;
-    selectedSize:string;
-    quantity:number;
+  product: Product;
+  selectedSize: string;
+  quantity: number;
 }
 
 export interface Address {
@@ -41,3 +39,24 @@ export interface Address {
   lat?: number;
   lng?: number;
 }
+
+export interface OrderItem{
+  productId: string;
+  name: string;
+  quantity: number;
+  price: number;
+  size: string;
+};
+
+export interface Order{
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  orderDate: string;
+  status: "Pending" | "Processing" | "Shipped" | "Delivered" | "Cancelled";
+  totalAmount: number;
+  paymentMethod: string;
+  shippingAddress: string;
+  items: OrderItem[];
+};

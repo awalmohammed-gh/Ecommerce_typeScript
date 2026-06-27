@@ -1,7 +1,7 @@
 import advertImg from "../../assets/advert.png";
 import { ArrowRightIcon, SparklesIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const Advert = () => {
   return (
@@ -18,7 +18,7 @@ const Advert = () => {
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden bg-linear-to-r from-app-green to-app-green-light shadow-xl "
+          className="relative overflow-hidden bg-linear-to-r from-app-green to-app-green-light shadow-xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 p-6 md:p-10 lg:p-14">
             {/* Content */}
@@ -144,6 +144,14 @@ const Advert = () => {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
                     className="w-full h-auto object-cover"
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                   />
                 </motion.div>
 
